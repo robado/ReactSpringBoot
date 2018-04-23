@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>React + Spring</title>
+</head>
+
+<body>
+  <div class='container'>
+    <div id='react'></div>
+  </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+<script type="text/babel">
+
+/*class App extends React.Component {
+    render() {
+     return (
+      <div>
+<h1>Hello React</h1>
+      </div>
+     );
+    }
+  }
+*/
+
+  class App extends React.Component {
+  		  constructor(props) {
+  		      super(props);
+  		      this.deleteStudent = this.deleteStudent.bind(this);
+  		      this.state = {
+  		          students: [],
+  		      };
+  		   }
+
+  		  componentDidMount() {
+  			// Call load students
+  			this.loadStudentsFromServer()
+  		  }
+
+  		  // Load students from database
+  		  loadStudentsFromServer() {
+  		      // Write your code here for fetching students
+  		      fetch('http://localhost:8080/api/students')
+  		      .then((response) => response.json())
+  		      .then((responseData => {
+  		          this.setState({
+  		          students: responseData._embedded.students,
+  		          });
+  		      }));
+  		  }
+
+  		  // Delete student
+  		  deleteStudent(student) {
+              //return fetch(student._links.self.href, {
+              return fetch(student._links.self.href, {
+                method: 'DELETE'
+              })
+              //.then(response => response.json());
+              .then(res => this.loadStudentsFromServer()
+              )
+             }
+
+  		  render() {
+  		    return (
+  		        // Write your code here to render App
+  		        <StudentTable students={this.state.students} deleteStudent={this.deleteStudent}/>
+  		    )
+  		  }
+  		}
+
+  	class StudentTable extends React.Component {
+  		constructor(props) {
+  			super(props);
+  		}
+
+  		render() {
+  		    const students = this.props.students.map(student =>
+  		        <Student key={student._links.self.href} student={student} deleteStudent={this.props.deleteStudent} />
+  		        );
+  	    	return (
+  				// Write your code here to render StudentTable
+  				<table>
+                	<tbody>
+                			<tr><th>FirstName</th><th>LastName</th><th>Email</th>
+                			</tr>
+                	    {students}
+                	</tbody>
+                </table>
+  	     	)
+  	  }
+  	}
+
+  	class Student extends React.Component {
+  	    constructor(props) {
+  	        super(props);
+  	        this.state = {editShow: false};
+  	        this.deleteStudent = this.deleteStudent.bind(this);
+  	    }
+
+  	    deleteStudent() {
+  	        this.props.deleteStudent(this.props.student)
+  	    }
+
+  	    render() {
+  	        return (
+  				// Write your code here to render StudentTableRow
+  				 <tr>
+  				    <td>{this.props.student.firstName}</td>
+                    <td>{this.props.student.lastName}</td>
+                    <td>{this.props.student.email}</td>
+                    <td>
+                        <button onClick={this.deleteStudent}>Delete</button>
+                    </td>
+                   </tr>
+  	        );
+  	    }
+  	}
+
+  	ReactDOM.render(<App/>, document.getElementById('react') );
+</script>
+
+</body>
+</html>
