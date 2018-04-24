@@ -1,0 +1,8 @@
+fi\haagahelia\studentListReact\domain\Student.class
+fi\haagahelia\studentListReact\domain\StudentRepository.class
+fi\haagahelia\studentListReact\domain\User.class
+fi\haagahelia\studentListReact\domain\UserRepository.class
+fi\haagahelia\studentListReact\web\UserDetailServiceImpl.class
+fi\haagahelia\studentListReact\StudentListReactApplication.class
+fi\haagahelia\studentListReact\WebSecurityConfig.class
+fi\haagahelia\studentListReact\web\MyController.class

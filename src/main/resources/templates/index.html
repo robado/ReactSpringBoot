@@ -6,6 +6,11 @@
 </head>
 
 <body>
+    <div class="col-md-4" style="padding:10px 10px">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" class="btn btn-danger" value="Log Out"/>
+        </form>
+    </div>
   <div class='container'>
     <div id='react'></div>
   </div>
@@ -46,7 +51,8 @@
   		  // Load students from database
   		  loadStudentsFromServer() {
   		      // Write your code here for fetching students
-  		      fetch('http://localhost:8080/api/students')
+  		      fetch('http://localhost:8080/api/students',
+  		      {credentials: 'same-origin'})
   		      .then((response) => response.json())
   		      .then((responseData => {
   		          this.setState({
@@ -57,11 +63,9 @@
 
   		  // Delete student
   		  deleteStudent(student) {
-              //return fetch(student._links.self.href, {
-              return fetch(student._links.self.href, {
-                method: 'DELETE'
-              })
-              //.then(response => response.json());
+              fetch(student._links.self.href, {
+                method: 'DELETE',
+                credentials: 'same-origin'})
               .then(res => this.loadStudentsFromServer()
               )
              }
@@ -124,6 +128,5 @@
 
   	ReactDOM.render(<App/>, document.getElementById('react') );
 </script>
-
 </body>
 </html>
