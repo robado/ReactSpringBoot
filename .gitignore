@@ -152,6 +152,23 @@ typings/
 # dotenv environment variables file
 .env
 
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
 
 # End of https://www.gitignore.io/api/node,macos,intellij
